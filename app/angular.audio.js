@@ -151,9 +151,14 @@ angular.module('ngAudio', [])
     return function(id, scope) {
 
         function twiddle(){
-            audio.play().then(function() {
+            var play = audio.play()
+            if(play && play.then) {
+              play.then(function() {
+                audio.pause();
+              });
+            } else {
               audio.pause();
-            });
+            }
             window.removeEventListener("click",twiddle);
         }
 
